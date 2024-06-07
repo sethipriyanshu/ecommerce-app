@@ -5,11 +5,13 @@ import { Home } from './pages/home';
 import { Shop } from './pages/shop';
 import { Contact } from './pages/contact';
 import { About } from './pages/about';
+import { Navbar } from './components/navbar';
 
 function App() {
   return (
     <div className="App">
       <Router>
+        <Navbar/>
         <Routes>
           <Route path='/' element = {<Home/>}/>
           <Route path='/shop' element = {<Shop/>}/>
