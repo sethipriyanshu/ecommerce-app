@@ -1,4 +1,5 @@
 import { Navbar } from "../components/navbar"
+import { ProductCard } from "../components/productcard"
 
 export const Home = () =>{
     return(
@@ -35,8 +36,14 @@ export const Home = () =>{
 </div>
 <br></br>
 <br></br>
-<h1>Trending Products</h1>
-
+<h1 className="home-titles">Trending Products</h1>
+<div className="flex justify-center space-x-4">
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        
+      </div>
 </div>
     )
 }
