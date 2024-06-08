@@ -7,6 +7,9 @@ import { Contact } from './pages/contact';
 import { About } from './pages/about';
 import { Navbar } from './components/navbar';
 import { Profile } from './pages/profile';
+import { AdminLogin } from './pages/admin-pages/admin-login';
+import { Admin } from './pages/admin-pages/admin';
+import { ProtectedRoute } from './pages/admin-pages/ProtectedRoute';
 
 function App() {
   return (
@@ -19,6 +22,12 @@ function App() {
           <Route path='/contact' element = {<Contact/>}/>
           <Route path='/about' element = {<About/>}/>
           <Route path='/profile' element = {<Profile/>}/>
+          <Route path='/admin-login' element = {<AdminLogin/>}/>
+          <Route path="/admin" element={
+          <ProtectedRoute>
+            <Admin />
+          </ProtectedRoute>
+        } />
         </Routes>
 
       </Router>
