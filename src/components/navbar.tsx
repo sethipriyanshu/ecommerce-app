@@ -51,9 +51,11 @@ export const Navbar = () => {
                         />
                       </div>
                       <div className="text-left w-full space-y-2">
-                        <p className="text-lg font-semibold">Name: <span className="font-normal">{auth.currentUser?.displayName}</span></p>
-                        <p className="text-lg font-semibold">Email: <span className="font-normal truncate">{auth.currentUser?.email}</span></p>
-                        <p className="text-lg font-semibold">Phone Number: <span className="font-normal">{auth.currentUser?.phoneNumber || "Unavailable"}</span></p>
+                        <p className="text-lg font-semibold">Name <br/> <span className="font-normal">{auth.currentUser?.displayName}</span></p>
+                        <p className="text-lg font-semibold">Email <br/> <span className="font-normal truncate">{auth.currentUser?.email}</span></p>
+                        <p className="text-lg font-semibold">Phone Number <br/> <span className="font-normal">{auth.currentUser?.phoneNumber || "Unavailable"}</span></p>
+                        <p className="text-lg font-semibold">Address <button  className="text-sm text-blue-600 underline focus:outline-none">Edit</button> <br/> <input type="text" placeholder="Type here" className="input input-bordered input-accent w-full max-w-xs" />
+                        </p>
                       </div>
                     </div>
                     <div className="p-4 bg-base-200">
