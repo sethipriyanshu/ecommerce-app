@@ -3,11 +3,12 @@ import { auth, provider } from "../config/firebase";
 import { signInWithPopup } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { signOut } from "firebase/auth";
+import { useState } from "react";
 
 export const Navbar = () => {
+  const [isAddress,setAddress] = useState(false);
   const signInWithGoogle = async () => {
     const result = await signInWithPopup(auth, provider);
-    console.log(result);
   };
 
   const signUserOut = async () => {
@@ -15,6 +16,9 @@ export const Navbar = () => {
   };
 
   const [user] = useAuthState(auth);
+  const editAddress = () =>{
+    setAddress(!isAddress);
+  }
 
   return (
     <div className="navbar bg-base-100">
@@ -54,7 +58,7 @@ export const Navbar = () => {
                         <p className="text-lg font-semibold">Name <br/> <span className="font-normal">{auth.currentUser?.displayName}</span></p>
                         <p className="text-lg font-semibold">Email <br/> <span className="font-normal truncate">{auth.currentUser?.email}</span></p>
                         <p className="text-lg font-semibold">Phone Number <br/> <span className="font-normal">{auth.currentUser?.phoneNumber || "Unavailable"}</span></p>
-                        <p className="text-lg font-semibold">Address <button  className="text-sm text-blue-600 underline focus:outline-none">Edit</button> <br/> <input type="text" placeholder="Type here" className="input input-bordered input-accent w-full max-w-xs" />
+                        <p className="text-lg font-semibold">Address <button  className="text-sm text-blue-600 underline focus:outline-none" onClick={editAddress}>{!isAddress? <>Edit</> : <>Cancel</>}</button> <br/><span className="font-normal">{ isAddress ? <input type="text" placeholder="Type here" className="input input-bordered input-accent w-full max-w-xs" />:<>Unavailable</> }</span>
                         </p>
                       </div>
                     </div>
