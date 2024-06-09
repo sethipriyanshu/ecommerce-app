@@ -9,12 +9,13 @@ export const Navbar = () => {
     const result = await signInWithPopup(auth, provider);
     console.log(result);
   };
-  
-  const [user] = useAuthState(auth);
-  const signUserOut = async () =>{
+
+  const signUserOut = async () => {
     await signOut(auth);
-}
-  
+  };
+
+  const [user] = useAuthState(auth);
+
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
@@ -36,26 +37,29 @@ export const Navbar = () => {
                     <img src={auth.currentUser?.photoURL || ""} alt="User Avatar" className="w-6 h-6 rounded-full" />
                     <span>{auth.currentUser?.displayName}</span>
                   </label>
-                </div> 
+                </div>
                 <div className="drawer-side" style={{ zIndex: 1000 }}>
                   <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay"></label>
-                  <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-                    {/* Sidebar content here */}
-                    <br/>
-                    <br/>
-                    <div className="flex flex-col items-center">
-                      <img 
-                        src={auth.currentUser?.photoURL || ""} 
-                        alt="User Avatar" 
-                        className="w-20 h-20  mb-4"
-                      />
+                  <div className="flex flex-col h-full">
+                    <div className="menu p-4 w-80 bg-base-200 text-base-content flex-grow">
+                      {/* Sidebar content here */}
+                      <div className="flex flex-col items-center mb-4">
+                        <img 
+                          src={auth.currentUser?.photoURL || ""} 
+                          alt="User Avatar" 
+                          className="w-20 h-20 mb-4"
+                        />
+                      </div>
+                      <div className="text-left w-full space-y-2">
+                        <p className="text-lg font-semibold">Name: <span className="font-normal">{auth.currentUser?.displayName}</span></p>
+                        <p className="text-lg font-semibold">Email: <span className="font-normal truncate">{auth.currentUser?.email}</span></p>
+                        <p className="text-lg font-semibold">Phone Number: <span className="font-normal">{auth.currentUser?.phoneNumber || "Unavailable"}</span></p>
+                      </div>
                     </div>
-                    <p>Name:- {auth.currentUser?.displayName}</p>
-                    <p>Email:- {auth.currentUser?.email}</p>
-                    <p>Phone Number:- {auth.currentUser?.phoneNumber || <>Unavailable</>}</p>
-                    <button onClick={signUserOut} className="btn btn-outline btn-error">Log Out</button>
-                  </ul>
-                  
+                    <div className="p-4 bg-base-200">
+                      <button onClick={signUserOut} className="btn btn-outline btn-error w-full">Log Out</button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </li>
