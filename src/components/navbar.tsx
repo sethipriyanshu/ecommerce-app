@@ -11,6 +11,9 @@ export const Navbar = () => {
   };
   
   const [user] = useAuthState(auth);
+  const signUserOut = async () =>{
+    await signOut(auth);
+}
   
   return (
     <div className="navbar bg-base-100">
@@ -47,9 +50,12 @@ export const Navbar = () => {
                         className="w-20 h-20  mb-4"
                       />
                     </div>
-                    <li><a>Sidebar Item 1</a></li>
-                    <li><a>Sidebar Item 2</a></li>
+                    <p>Name:- {auth.currentUser?.displayName}</p>
+                    <p>Email:- {auth.currentUser?.email}</p>
+                    <p>Phone Number:- {auth.currentUser?.phoneNumber || <>Unavailable</>}</p>
+                    <button onClick={signUserOut} className="btn btn-outline btn-error">Log Out</button>
                   </ul>
+                  
                 </div>
               </div>
             </li>
