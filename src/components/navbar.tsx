@@ -4,6 +4,9 @@ import { signInWithPopup } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { signOut } from "firebase/auth";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver} from "@hookform/resolvers/yup";
 
 export const Navbar = () => {
   const [isAddress,setAddress] = useState(false);
