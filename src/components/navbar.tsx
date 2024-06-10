@@ -6,10 +6,16 @@ import { signOut } from "firebase/auth";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { yupResolver} from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../config/firebase";
+
+interface AddUserData {
+  userAddress: string;
+}
 
 export const Navbar = () => {
-  const [isAddress,setAddress] = useState(false);
+  const [isAddress, setAddress] = useState(false);
   const signInWithGoogle = async () => {
     const result = await signInWithPopup(auth, provider);
   };
@@ -19,9 +25,29 @@ export const Navbar = () => {
   };
 
   const [user] = useAuthState(auth);
-  const editAddress = () =>{
+  const editAddress = () => {
     setAddress(!isAddress);
-  }
+  };
+  const postsRef = collection(db, "users");
+  const schema = yup.object().shape({
+    userAddress: yup.string().required("*Address Cannot Be Empty"),
+  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AddUserData>({
+    resolver: yupResolver(schema),
+  });
+
+  const onCreatePost = async (data: AddUserData) => {
+    await addDoc(postsRef, {
+      userAddress: data.userAddress,
+      userEmail: user?.email,
+      userId: user?.uid,
+      userName: user?.displayName,
+    });
+  };
 
   return (
     <div className="navbar bg-base-100">
@@ -61,7 +87,19 @@ export const Navbar = () => {
                         <p className="text-lg font-semibold">Name <br/> <span className="font-normal">{auth.currentUser?.displayName}</span></p>
                         <p className="text-lg font-semibold">Email <br/> <span className="font-normal truncate">{auth.currentUser?.email}</span></p>
                         <p className="text-lg font-semibold">Phone Number <br/> <span className="font-normal">{auth.currentUser?.phoneNumber || "Unavailable"}</span></p>
-                        <p className="text-lg font-semibold">Address <button  className="text-sm text-blue-600 underline focus:outline-none" onClick={editAddress}>{!isAddress? <>Edit</> : <>Cancel</>}</button> <br/><span className="font-normal">{ isAddress ? <input type="text" placeholder="Type here" className="input input-bordered input-accent w-full max-w-xs" />:<>Unavailable</> }</span>
+                        <p className="text-lg font-semibold">Address <button  className="text-sm text-blue-600 underline focus:outline-none" onClick={editAddress}>{!isAddress? <>Edit</> : <>Cancel</>}</button> <br/>
+                        <form onSubmit={handleSubmit(onCreatePost)}>
+                        <span className="font-normal">{ isAddress ?<> 
+                          <input 
+                            type="text" 
+                            placeholder="Type here" 
+                            className="input input-bordered input-accent w-full max-w-xs"
+                            {...register("userAddress")}
+                          /> 
+                          <input type="submit" className="btn btn-primary ml-2" value="Submit"/> 
+                          <p style={{ color: "red" }}>{errors.userAddress?.message}</p> 
+                        </> :<>Unavailable</> }</span>
+                        </form>
                         </p>
                       </div>
                     </div>
